@@ -1,0 +1,2918 @@
+/* =======================================
+   GLOBAL / RESET
+   ======================================= */
+
+   html {
+    scroll-behavior: smooth;
+  }
+  
+  :root {
+    /* NeighborGood theme variables (light) */
+    --ng-bg-body: #f3f4f6;
+    --ng-bg-surface: #ffffff;
+    --ng-bg-soft: #e5e7eb;
+    --ng-border-subtle: #e5e7eb;
+    --ng-border-strong: #cbd5f5;
+    --ng-text-main: #0f172a;
+    --ng-text-soft: #4b5563;
+  
+    /* brand colors */
+    --ng-primary: #2563eb;
+    --ng-primary-soft: #dbeafe;
+    --ng-accent: #22c55e;
+    --ng-accent-soft: #dcfce7;
+    --ng-warm: #f97316;
+  
+    /* map */
+    --ng-map-border: #cbd5f5;
+  
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    line-height: 1.5;
+    color: #111827;
+    background-color: #f3f4f6;
+  }
+  
+  .app-root.theme-dark {
+    --ng-bg-body: #020617;
+    --ng-bg-surface: #020617;
+    --ng-bg-soft: #020617;
+    --ng-border-subtle: #1f2937;
+    --ng-border-strong: #334155;
+    --ng-text-main: #e5e7eb;
+    --ng-text-soft: #9ca3af;
+  
+    --ng-primary: #4f46e5;
+    --ng-primary-soft: #312e81;
+    --ng-accent: #22c55e;
+    --ng-accent-soft: #14532d;
+    --ng-warm: #f97316;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+  }
+  
+  .app-root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* =======================================
+     HEADER / POINTS / THEME TOGGLE
+     ======================================= */
+  
+  .header {
+    padding: 1.5rem 2rem;
+    background: #0f172a;
+    color: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* App header tagline */
+.subtitle {
+  margin: 0.3rem 0 0;
+  font-size: 1rem;
+  color: rgba(249, 250, 251, 0.96); /* almost pure white */
+  letter-spacing: 0.01em;
+  max-width: 40rem;
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.45); /* subtle glow for contrast */
+}
+  
+  .header-badge {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    background: #111827;
+    border: 1px solid #374151;
+  }
+  
+  .logo-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.6rem;
+  }
+  
+  .logo {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+  }
+  
+  .points-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-weight: 500;
+  }
+  
+  .points-user {
+    font-weight: 600;
+  }
+  
+  .points-value {
+    opacity: 0.9;
+  }
+  
+  .theme-toggle {
+    border: none;
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
+    background: #e5e7eb;
+    color: #111827;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+  }
+  
+  .theme-toggle:hover {
+    background: #d1d5db;
+    transform: translateY(-1px);
+  }
+  
+  /* =======================================
+     MAIN APP LAYOUT (MAP + SIDEBAR VIEW)
+     ======================================= */
+  
+  .app-content {
+    padding: 1rem 2rem 2rem;
+  }
+  
+  .layout {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Filters */
+  
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+  }
+  
+  .filter-group label {
+    font-weight: 500;
+  }
+  
+  .filter-group select {
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    font-size: 0.9rem;
+  }
+  
+  /* Location status */
+  
+  .location-status {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    background: #eff6ff;
+    color: #1d4ed8;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .location-status.error {
+    background: #fef2f2;
+    color: #b91c1c;
+  }
+  
+  /* Sidebar list */
+  
+  .sidebar {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-title {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .sidebar-count {
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+  
+  .sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    padding-right: 0.2rem;
+  }
+  
+  .sidebar-empty {
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+  
+  /* Charity card */
+  
+  .charity-card {
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem 0.8rem;
+    background: #ffffff;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease,
+      border-color 0.15s ease, background 0.15s ease;
+  }
+  
+  .charity-card:hover {
+    border-color: #c7d2fe;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+  
+  .charity-card-selected {
+    border-color: #4f46e5;
+    box-shadow: 0 10px 22px rgba(79, 70, 229, 0.15);
+    background: #f5f3ff;
+  }
+  
+  .charity-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .charity-name {
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  
+  .charity-icon {
+    font-size: 1rem;
+  }
+  
+  .charity-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .charity-cause {
+    margin: 0.15rem 0;
+    font-size: 0.85rem;
+    color: #4b5563;
+  }
+  
+  .charity-description {
+    margin: 0.25rem 0 0.4rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+  
+  .charity-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: #6b7280;
+    margin-bottom: 0.4rem;
+  }
+  
+  .charity-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .charity-accepts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  .charity-impact {
+    margin: 0.4rem 0 0;
+    font-size: 0.78rem;
+    color: #4b5563;
+  }
+  
+  .charity-footer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    justify-content: flex-end;
+  }
+  
+  /* Pills & buttons */
+  
+  .pill {
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: none;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: #4f46e5;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  
+  .button-small {
+    padding: 0.3rem 0.7rem;
+  }
+  
+  .button-ghost {
+    background: #ffffff;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+  }
+  
+  .button-ghost:hover {
+    background: #f3f4f6;
+  }
+  
+  /* Urgency tags */
+  
+  .urgency-tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  
+  .urgency-high {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  .urgency-medium {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  
+  .urgency-low {
+    background: #dcfce7;
+    color: #166534;
+  }
+  
+  /* Map container */
+  
+  .map-container {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+    min-height: 360px;
+    max-height: calc(100vh - 210px);
+    animation: fadeIn 0.4s ease;
+  }
+  
+  .map {
+    width: 100%;
+    height: 100%;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Custom logo markers */
+  
+  .charity-marker {
+    background: transparent;
+    border: none;
+  }
+  
+  .marker-inner {
+    width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 3px solid #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.35);
+    transform: translateY(-10px);
+    transition: transform 0.12s ease, box-shadow 0.12s ease,
+      border-color 0.12s ease;
+  }
+  
+  .marker-inner-selected {
+    transform: translateY(-14px) scale(1.15);
+    border-color: #f97316;
+    box-shadow: 0 18px 34px rgba(251, 146, 60, 0.55);
+  }
+  
+  /* Quick "I have..." pills (in app view) */
+  
+  .quick-actions {
+    margin-bottom: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+  }
+  
+  .quick-actions-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4b5563;
+  }
+  
+  .quick-actions-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .quick-action-pill {
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.12s ease, border-color 0.12s ease,
+      transform 0.08s ease, box-shadow 0.12s ease;
+    box-shadow: 0 6px 16px rgba(148, 163, 184, 0.25);
+  }
+  
+  .quick-action-pill:hover {
+    background: #eef2ff;
+    border-color: #4f46e5;
+    box-shadow: 0 10px 22px rgba(129, 140, 248, 0.45);
+    transform: translateY(-1px);
+  }
+  
+  .quick-action-emoji {
+    font-size: 1.2rem;
+  }
+  
+  .quick-action-text {
+    white-space: nowrap;
+  }
+  
+  /* Impact summary bar */
+  
+  .impact-summary {
+    margin-top: 0.3rem;
+    margin-bottom: 0.6rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.75rem;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  .impact-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  
+  .impact-main-title {
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .impact-main-stats {
+    color: #4b5563;
+  }
+  
+  .impact-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    justify-content: flex-end;
+  }
+  
+  .impact-badge {
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+  }
+  
+  .impact-badge-icon {
+    font-size: 0.95rem;
+  }
+  
+  /* Save button in cards */
+  
+  .save-button {
+    border: none;
+    background: transparent;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  
+  .save-button:hover {
+    background: #e5e7eb;
+    color: #374151;
+  }
+  
+  .save-button-active {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  
+  /* Summary bar */
+  
+  .summary-bar {
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    background: #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #374151;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .summary-right {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  
+  .summary-pill {
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: #f3f4f6;
+    font-size: 0.8rem;
+  }
+  
+  .summary-pill-primary {
+    background: #eef2ff;
+    color: #4338ca;
+    font-weight: 500;
+  }
+  
+  /* Loader */
+  
+  .loader {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #bfdbfe;
+    border-top-color: #4f46e5;
+    animation: spin 0.6s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Org signup banner */
+  
+  .org-banner {
+    margin-top: 0.9rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 0.9rem;
+    background: linear-gradient(to right, #f97316, #facc15);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    color: #111827;
+  }
+  
+  .org-banner-text {
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  
+  @media (max-width: 900px) {
+    .org-banner-text {
+      max-width: 100%;
+    }
+  }
+  
+  .org-banner-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  
+  .org-banner-body {
+    font-size: 0.85rem;
+  }
+  
+  .org-banner-button {
+    border-radius: 999px;
+    background: #111827;
+    color: #f9fafb;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .org-banner-button:hover {
+    background: #020617;
+  }
+  
+  /* =======================================
+     DARK THEME OVERRIDES
+     ======================================= */
+  
+  .theme-dark {
+    background-color: #020617;
+    color: #e5e7eb;
+  }
+  
+  .theme-dark .header {
+    background: #020617;
+    border-bottom: 1px solid #1f2937;
+  }
+  
+  .theme-dark .subtitle {
+    color: #9ca3af;
+  }
+  
+  .theme-dark .app-content {
+    background: #020617;
+  }
+  
+  .theme-dark .sidebar {
+    background: #020617;
+    border: 1px solid #1f2937;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+  
+  .theme-dark .map-container {
+    background: #020617;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+  
+  .theme-dark .charity-card {
+    background: #020617;
+    border-color: #1f2937;
+  }
+  
+  .theme-dark .charity-card:hover {
+    border-color: #4f46e5;
+    box-shadow: 0 14px 30px rgba(31, 41, 55, 0.7);
+  }
+  
+  .theme-dark .charity-card-selected {
+    background: #111827;
+  }
+  
+  .theme-dark .summary-bar {
+    background: #111827;
+    color: #e5e7eb;
+  }
+  
+  .theme-dark .summary-pill {
+    background: #1f2937;
+  }
+  
+  .theme-dark .summary-pill-primary {
+    background: #312e81;
+    color: #e5e7eb;
+  }
+  
+  .theme-dark .points-display {
+    background: #1f2937;
+    color: #e5e7eb;
+  }
+  
+  .theme-dark .theme-toggle {
+    background: #1f2937;
+    color: #e5e7eb;
+  }
+  
+  .theme-dark .theme-toggle:hover {
+    background: #374151;
+  }
+  
+  .theme-dark .location-status {
+    background: #111827;
+    color: #93c5fd;
+  }
+  
+  .theme-dark .location-status.error {
+    background: #111827;
+    color: #fecaca;
+  }
+  
+  /* =======================================
+     LANDING / HERO PAGE (NEIGHBORGOOD)
+     ======================================= */
+  
+  /* Background */
+  
+  .landing-root {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #f9fafb;
+    background: radial-gradient(circle at 0% 0%, #1d4ed8 0%, #020617 55%);
+  }
+  
+  /* Top nav */
+  
+  .landing-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding: 1rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(14px);
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.9),
+      rgba(15, 23, 42, 0.7),
+      transparent
+    );
+  }
+  
+  .landing-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .landing-logo-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #22c55e, #38bdf8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  
+  .landing-logo-text {
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #e5e7eb;
+  }
+  
+  .landing-nav-links {
+    display: flex;
+    gap: 1.6rem;
+  }
+  
+  .landing-nav-link {
+    border: none;
+    background: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    cursor: pointer;
+  }
+  
+  .landing-nav-link:hover {
+    color: #f9fafb;
+  }
+  
+  /* Main hero layout */
+  
+  .landing-main {
+    padding: 2.2rem 2.5rem 2.5rem;
+  }
+  
+  @media (max-width: 960px) {
+    .landing-main {
+      padding: 1.8rem 1.4rem 2.2rem;
+    }
+  }
+  
+  .landing-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 3.2fr) minmax(0, 3fr);
+    gap: 2rem;
+    align-items: center;
+  }
+  
+  @media (max-width: 960px) {
+    .landing-hero {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  
+  /* Hero left text */
+  
+  .landing-hero-left {
+    max-width: 560px;
+  }
+  
+  .landing-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(191, 219, 254, 0.9);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #e5e7eb;
+    margin-bottom: 0.75rem;
+    background: rgba(15, 23, 42, 0.55);
+  }
+  
+  .landing-title {
+    font-size: 2.7rem;
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+  
+  .landing-title span {
+    display: block;
+    background: linear-gradient(135deg, #60a5fa, #22c55e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+/* Landing hero subtitle under NeighborGood logo/title */
+.landing-subtitle {
+  margin-top: 0.75rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 44rem;
+  color: rgba(249, 250, 251, 0.96); /* much higher contrast */
+  letter-spacing: 0.005em;
+  text-shadow: 0 1px 4px rgba(15, 23, 42, 0.5);
+}
+  
+  .landing-points {
+    margin-top: 0.75rem;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+    color: #e5e7eb;
+  }
+  
+  .landing-tags {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .landing-tag {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.7);
+  }
+  
+  /* Hero right – centered "Start NeighborGood" panel */
+  
+  .landing-hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .landing-start-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  
+  .landing-login-panel {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    border-radius: 1.2rem;
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    padding: 1.4rem 1.5rem;
+    box-shadow: 0 24px 45px rgba(15, 23, 42, 0.85);
+  }
+  
+  .landing-login-panel h2 {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+  
+  .landing-login-panel p {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    color: #e5e7eb;
+  }
+  
+  .landing-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  
+  .landing-login-form label {
+    font-size: 0.78rem;
+    color: #cbd5f5;
+  }
+  
+  .landing-login-form input {
+    height: 48px;
+    border-radius: 0.8rem;
+    border: 1px solid #4b5563;
+    background: #020617;
+    padding: 0.5rem 0.7rem;
+    font-size: 1rem;
+    color: #f9fafb;
+  }
+  
+  .landing-login-form input:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 1px #60a5fa;
+  }
+  
+  .landing-login-button {
+    margin-top: 0.4rem;
+    width: 100%;
+    height: 48px;
+    font-size: 1rem;
+    border-radius: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .landing-login-note {
+    margin-top: 0.8rem;
+    text-align: center;
+    font-size: 0.78rem;
+    opacity: 0.75;
+    color: #9ca3af;
+  }
+  
+  /* Sections ("How it works", "For neighbours", "For organizations") */
+  
+  .landing-section {
+    margin-top: 2.6rem;
+  }
+  
+  .landing-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e5e7eb;
+    margin-bottom: 0.9rem;
+  }
+  
+  /* three-column grid for How it works */
+  
+  .landing-section-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  
+  @media (max-width: 960px) {
+    .landing-section-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  
+  /* generic cards */
+  
+  .landing-section-card {
+    border-radius: 1.1rem;
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    padding: 0.9rem 1rem;
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.8);
+  }
+  
+  .landing-section-card h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  
+  .landing-section-card p {
+    font-size: 0.83rem;
+    color: #d1d5db;
+  }
+  
+  /* mini line "icons" at top of each card */
+  
+  .section-icon-container {
+    margin-bottom: 0.5rem;
+  }
+  
+  .section-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 2px solid rgba(148, 163, 184, 0.9);
+    position: relative;
+  }
+  
+  /* simple variants */
+  
+  .icon-have::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 50%;
+    height: 2px;
+    background: linear-gradient(to right, #22c55e, #38bdf8);
+    transform: translateY(-50%);
+  }
+  
+  .icon-map::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border-radius: 10px;
+    border: 1px solid #60a5fa;
+  }
+  
+  .icon-map::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: 2px solid #22c55e;
+  }
+  
+  .icon-badge::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 999px;
+    border: 1px dashed #facc15;
+  }
+  
+  .icon-badge::after {
+    content: "";
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translateX(-50%) rotate(45deg);
+    border-radius: 2px;
+    background: #22c55e;
+  }
+  
+  /* wide row layout for neighbour/org sections */
+  
+  .landing-section-wide {
+    border-radius: 1.1rem;
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    padding: 0.9rem 1rem;
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.8);
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+  
+  @media (max-width: 960px) {
+    .landing-section-wide {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  
+  .landing-section-text p + p {
+    margin-top: 0.35rem;
+  }
+  
+  /* line illustrations for neighbour/org sections */
+  
+  .line-illustration {
+    position: relative;
+    border-radius: 0.9rem;
+    background: radial-gradient(circle at 0% 0%, #1d4ed8 0%, #020617 70%);
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    overflow: hidden;
+  }
+  
+  /* neighbours: two people + bag outline */
+  
+  .line-person {
+    position: absolute;
+    bottom: 20px;
+    left: 26px;
+    width: 26px;
+    height: 54px;
+    border-radius: 14px;
+    border: 2px solid rgba(148, 163, 184, 0.8);
+  }
+  
+  .line-person::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    border: 2px solid rgba(148, 163, 184, 0.9);
+  }
+  
+  .line-person-2 {
+    left: 64px;
+    height: 50px;
+  }
+  
+  .line-bag {
+    position: absolute;
+    bottom: 16px;
+    right: 26px;
+    width: 34px;
+    height: 32px;
+    border-radius: 8px;
+    border: 2px solid rgba(56, 189, 248, 0.9);
+  }
+  
+  .line-bag::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 10px;
+    width: 14px;
+    height: 8px;
+    border-radius: 6px 6px 0 0;
+    border: 2px solid rgba(56, 189, 248, 0.9);
+    border-bottom: none;
+  }
+  
+  /* orgs: simple building + boxes */
+  
+  .line-building {
+    position: absolute;
+    bottom: 18px;
+    left: 22px;
+    width: 52px;
+    height: 48px;
+    border-radius: 6px;
+    border: 2px solid rgba(148, 163, 184, 0.9);
+  }
+  
+  .line-building::before,
+  .line-building::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(148, 163, 184, 0.9);
+  }
+  
+  .line-building::before {
+    top: 10px;
+    left: 8px;
+  }
+  
+  .line-building::after {
+    top: 10px;
+    right: 8px;
+  }
+  
+  .line-box {
+    position: absolute;
+    bottom: 20px;
+    right: 26px;
+    width: 26px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid rgba(96, 165, 250, 0.9);
+  }
+  
+  .line-box-2 {
+    right: 58px;
+    bottom: 26px;
+    border-color: rgba(22, 163, 74, 0.9);
+  }
+  
+  /* Scroll reveal */
+  
+  .reveal-section {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  
+  .reveal-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .hero-label-row {
+    display: none;
+  }
+  /* ===========================
+   Neighbours & organizations
+   =========================== */
+
+/* Longer page + more breathing room */
+.landing-section {
+  margin-top: 3.2rem;
+  padding-bottom: 2rem;
+}
+
+.landing-section-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 1.1rem;
+}
+
+/* Wide card layout with bigger visual */
+.landing-section-wide {
+  border-radius: 1.3rem;
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.85);
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 1.5rem;
+  min-height: 240px;
+}
+
+@media (max-width: 960px) {
+  .landing-section-wide {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.2rem 1.1rem;
+  }
+}
+
+/* Typography inside these sections */
+.landing-section-text p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #e5e7eb;
+}
+
+.landing-section-text p + p {
+  margin-top: 1rem;
+}
+
+/* Base line-illustration block */
+.line-illustration {
+  position: relative;
+  border-radius: 1rem;
+  min-height: 210px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.45) 0%, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(45, 212, 191, 0.38) 0%, transparent 55%),
+    #020617;
+}
+
+/* Subtle animated grid inside the illustration */
+.line-illustration::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      to right,
+      rgba(148, 163, 184, 0.14) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(148, 163, 184, 0.14) 1px,
+      transparent 1px
+    );
+  background-size: 32px 32px;
+  opacity: 0.7;
+}
+
+/* Slight hover lift */
+.landing-section-wide:hover .line-illustration {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.95);
+}
+
+/* Colour tint per section */
+.line-illustration-neighbours {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(52, 211, 153, 0.45) 0%, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(96, 165, 250, 0.5) 0%, transparent 55%),
+    #020617;
+}
+
+.line-illustration-orgs {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.5) 0%, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(250, 204, 21, 0.45) 0%, transparent 55%),
+    #020617;
+}
+
+/* ========= Neighbours drawing: two people + path + bag ========= */
+
+.line-person {
+  position: absolute;
+  bottom: 34px;
+  width: 28px;
+  height: 56px;
+  border-radius: 16px;
+  border: 2px solid rgba(209, 213, 219, 0.9);
+}
+
+.line-person::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid rgba(209, 213, 219, 0.95);
+}
+
+.line-person-1 {
+  left: 30px;
+  animation: neighbourBob 3.6s ease-in-out infinite;
+}
+
+.line-person-2 {
+  left: 72px;
+  height: 50px;
+  animation: neighbourBob 3.6s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+
+/* Reusable bob animation */
+@keyframes neighbourBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Bag the neighbours are carrying towards the org */
+.line-bag {
+  position: absolute;
+  bottom: 28px;
+  right: 26px;
+  width: 36px;
+  height: 30px;
+  border-radius: 10px;
+  border: 2px solid rgba(56, 189, 248, 0.95);
+}
+
+.line-bag::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  width: 16px;
+  height: 10px;
+  border-radius: 8px 8px 0 0;
+  border: 2px solid rgba(56, 189, 248, 0.95);
+  border-bottom: none;
+}
+
+/* Dashed path where people walk */
+.line-dashed-path {
+  position: absolute;
+  left: 40px;
+  right: 46px;
+  bottom: 18px;
+  height: 0;
+  border-top: 2px dashed rgba(148, 163, 184, 0.8);
+  opacity: 0.8;
+}
+
+/* ========= Organizations drawing: building + boxes + sparkles ========= */
+
+.line-building {
+  position: absolute;
+  bottom: 28px;
+  left: 26px;
+  width: 64px;
+  height: 54px;
+  border-radius: 8px;
+  border: 2px solid rgba(209, 213, 219, 0.95);
+}
+
+/* windows */
+.line-building::before,
+.line-building::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(156, 163, 175, 0.95);
+}
+
+.line-building::before {
+  top: 12px;
+  left: 10px;
+}
+
+.line-building::after {
+  top: 12px;
+  right: 10px;
+}
+
+/* door */
+.line-building .door {
+  display: none; /* in case you want to extend later */
+}
+
+/* donation boxes */
+.line-box {
+  position: absolute;
+  width: 30px;
+  height: 22px;
+  border-radius: 4px;
+  bottom: 24px;
+  border: 2px solid rgba(96, 165, 250, 0.95);
+}
+
+.line-box-1 {
+  right: 30px;
+}
+
+.line-box-2 {
+  right: 68px;
+  bottom: 32px;
+  border-color: rgba(22, 163, 74, 0.95);
+}
+
+/* little sparkles to suggest activity / impact */
+.line-sparkle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  border: 2px solid rgba(250, 204, 21, 0.9);
+  transform: rotate(45deg);
+  animation: sparklePulse 2.6s ease-in-out infinite;
+}
+
+.line-sparkle-1 {
+  top: 26px;
+  right: 40px;
+}
+
+.line-sparkle-2 {
+  top: 40px;
+  right: 70px;
+  animation-delay: 0.6s;
+}
+
+@keyframes sparklePulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translateY(0) rotate(45deg) scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px) rotate(45deg) scale(1.1);
+  }
+}
+
+/* Scroll reveal (if you’re using IntersectionObserver) */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ============================
+   MAP VIEW – POLISHED SHELL
+   ============================ */
+
+/* Overall app shell when logged in */
+.app-root {
+  background: radial-gradient(circle at 0% 0%, #e0f2fe 0%, #eef2ff 30%, #f9fafb 70%);
+  color: #0f172a;
+}
+
+/* Content frame under the header */
+.app-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.5rem 1.75rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* Layout: sidebar + map */
+.layout {
+  margin-top: 0.75rem;
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ============================
+   SIDEBAR + LIST
+   ============================ */
+
+.sidebar {
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-title {
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.sidebar-count {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+  padding-right: 0.2rem;
+  scroll-behavior: smooth;
+}
+
+/* slim scrollbar on sidebar only */
+.sidebar-list::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-list::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+
+/* ============================
+   CHARITY CARD – AIRY + MODERN
+   ============================ */
+
+.charity-card {
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  padding: 0.9rem 1rem;
+  background: #ffffff;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.charity-card:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.charity-card-selected {
+  border-color: #4f46e5;
+  background: #f5f3ff;
+  box-shadow: 0 14px 36px rgba(79, 70, 229, 0.25);
+}
+
+.charity-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.charity-name {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.charity-cause {
+  margin: 0.2rem 0;
+  font-size: 0.83rem;
+  color: #4b5563;
+}
+
+.charity-description {
+  margin: 0.25rem 0 0.45rem;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+.charity-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-bottom: 0.45rem;
+}
+
+.charity-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.charity-footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: flex-end;
+}
+
+/* pills + buttons – softer */
+.pill {
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: #4f46e5;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 10px 22px rgba(79, 70, 229, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+}
+
+.button:hover {
+  background: #4338ca;
+  box-shadow: 0 14px 30px rgba(67, 56, 202, 0.45);
+  transform: translateY(-1px);
+}
+
+.button-ghost {
+  background: #f9fafb;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  box-shadow: none;
+}
+
+.button-ghost:hover {
+  background: #e5e7eb;
+}
+
+/* ============================
+   MAP CONTAINER
+   ============================ */
+
+.map-container {
+  background: #ffffff;
+  border-radius: 1.25rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  min-height: 420px;
+  max-height: calc(100vh - 200px);
+  animation: fadeIn 0.35s ease;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+/* Custom emoji markers already defined; just slightly soften */
+.marker-inner {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 3px solid #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.35);
+  transform: translateY(-9px);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.marker-inner-selected {
+  transform: translateY(-13px) scale(1.12);
+  border-color: #f97316;
+  box-shadow: 0 18px 34px rgba(251, 146, 60, 0.55);
+}
+
+/* ============================
+   QUICK ACTIONS + IMPACT BAR
+   ============================ */
+
+.quick-actions {
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.quick-actions-label {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.quick-actions-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.quick-action-pill {
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 8px 22px rgba(148, 163, 184, 0.35);
+  transition: background 0.12s ease, border-color 0.12s ease,
+    transform 0.08s ease, box-shadow 0.12s ease;
+}
+
+.quick-action-pill:hover {
+  background: #eef2ff;
+  border-color: #4f46e5;
+  box-shadow: 0 14px 28px rgba(129, 140, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Impact summary pill bar */
+.impact-summary {
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  font-size: 0.86rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 14px 25px rgba(15, 23, 42, 0.06);
+}
+
+/* ============================
+   LOCATION STATUS CHIP
+   ============================ */
+
+.location-status {
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #1d4ed8;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.location-status.error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+/* ============================
+   ORG BANNER – STICKY FOOTER
+   ============================ */
+
+.org-banner {
+  margin-top: 1.4rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 0.9rem;
+  background: linear-gradient(90deg, #f97316, #facc15);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  color: #111827;
+  box-shadow: 0 14px 30px rgba(249, 115, 22, 0.35);
+}
+
+.org-banner-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.org-banner-body {
+  font-size: 0.82rem;
+}
+
+.org-banner-button {
+  border-radius: 999px;
+  background: #111827;
+  color: #f9fafb;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.82rem;
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.45);
+}
+
+.org-banner-button:hover {
+  background: #020617;
+}
+/* =========================================
+   MAP PAGE – MATCH LANDING PAGE AESTHETIC
+   (applies only when theme is "dark")
+   ========================================= */
+
+   .app-root.theme-dark {
+    background: radial-gradient(circle at 0% 0%, #1d4ed8 0%, #020617 55%);
+    color: #e5e7eb;
+  }
+  
+  /* Main content shell */
+  .app-root.theme-dark .app-content {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 1.8rem 2.1rem 2.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  /* tighten vertical rhythm above the main grid */
+  .app-root.theme-dark .quick-actions {
+    margin-top: 0.4rem;
+  }
+  
+  .app-root.theme-dark .filter-bar {
+    margin-top: 0.6rem;
+  }
+  
+  .app-root.theme-dark .impact-summary {
+    margin-top: 0.7rem;
+  }
+  
+  .app-root.theme-dark .layout {
+    margin-top: 1.1rem;
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    gap: 1.4rem;
+  }
+  
+  @media (max-width: 960px) {
+    .app-root.theme-dark .layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  
+  /* ========================
+     SIDEBAR + LIST PANEL
+     ======================== */
+  
+  .app-root.theme-dark .sidebar {
+    background: rgba(15, 23, 42, 0.96);
+    border-radius: 1.3rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(148, 163, 184, 0.55);
+    box-shadow: 0 22px 45px rgba(15, 23, 42, 0.9);
+  }
+  
+  .app-root.theme-dark .sidebar-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #f9fafb;
+    margin-bottom: 0.55rem;
+  }
+  
+  .app-root.theme-dark .sidebar-count {
+    font-size: 0.8rem;
+    color: #9ca3af;
+  }
+  
+  .app-root.theme-dark .sidebar-list {
+    max-height: calc(100vh - 250px);
+    padding-right: 0.25rem;
+  }
+  
+  /* slim scrollbar */
+  .app-root.theme-dark .sidebar-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  .app-root.theme-dark .sidebar-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .app-root.theme-dark .sidebar-list::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 999px;
+  }
+  
+  /* ========================
+     CHARITY CARDS
+     ======================== */
+  
+  .app-root.theme-dark .charity-card {
+    border-radius: 1.05rem;
+    border: 1px solid rgba(31, 41, 55, 0.9);
+    background: radial-gradient(circle at 0% 0%, #020617 0%, #020617 45%, #020617 100%);
+    padding: 0.9rem 1rem;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.85);
+  }
+  
+  .app-root.theme-dark .charity-card:hover {
+    border-color: #4f46e5;
+    box-shadow: 0 18px 40px rgba(56, 189, 248, 0.55);
+    transform: translateY(-2px);
+  }
+  
+  .app-root.theme-dark .charity-card-selected {
+    border-color: #60a5fa;
+    background: radial-gradient(circle at 0% 0%, #1d4ed8 0%, #020617 60%);
+  }
+  
+  .app-root.theme-dark .charity-name {
+    color: #f9fafb;
+  }
+  
+  .app-root.theme-dark .charity-cause {
+    color: #9ca3af;
+  }
+  
+  .app-root.theme-dark .charity-description {
+    color: #9ca3af;
+  }
+  
+  .app-root.theme-dark .charity-meta {
+    color: #9ca3af;
+  }
+  
+  .app-root.theme-dark .charity-impact {
+    color: #e5e7eb;
+  }
+  
+  /* pill + buttons in dark mode */
+  
+  .app-root.theme-dark .pill {
+    background: rgba(37, 99, 235, 0.16);
+    border-radius: 999px;
+    color: #bfdbfe;
+    border: 1px solid rgba(129, 140, 248, 0.6);
+  }
+  
+  .app-root.theme-dark .button {
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
+    color: #f9fafb;
+    box-shadow: 0 16px 34px rgba(37, 99, 235, 0.6);
+  }
+  
+  .app-root.theme-dark .button:hover {
+    background: linear-gradient(135deg, #4338ca, #1d4ed8);
+  }
+  
+  /* ghost button ("Open in Maps") */
+  .app-root.theme-dark .button-ghost {
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    box-shadow: none;
+  }
+  
+  .app-root.theme-dark .button-ghost:hover {
+    background: rgba(31, 41, 55, 0.9);
+  }
+  
+  /* ========================
+     MAP CONTAINER
+     ======================== */
+  
+  .app-root.theme-dark .map-container {
+    background: radial-gradient(circle at 0% 0%, #0f172a 0%, #020617 60%);
+    border-radius: 1.4rem;
+    border: 1px solid rgba(148, 163, 184, 0.55);
+    box-shadow: 0 25px 55px rgba(15, 23, 42, 0.95);
+    overflow: hidden;
+    min-height: 440px;
+    max-height: calc(100vh - 210px);
+  }
+  
+  .app-root.theme-dark .map {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* emoji markers – tuned to match landing neon vibe */
+  .app-root.theme-dark .marker-inner {
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: #020617;
+    border: 3px solid #60a5fa;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+    font-size: 1.6rem;
+  }
+  
+  .app-root.theme-dark .marker-inner-selected {
+    border-color: #f97316;
+    box-shadow: 0 20px 40px rgba(248, 250, 252, 0.4);
+  }
+  
+  /* ========================
+     QUICK ACTIONS + FILTER BAR
+     ======================== */
+  
+  .app-root.theme-dark .quick-actions-label {
+    color: #e5e7eb;
+  }
+  
+  .app-root.theme-dark .quick-action-pill {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    color: #e5e7eb;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+  }
+  
+  .app-root.theme-dark .quick-action-pill:hover {
+    background: rgba(37, 99, 235, 0.22);
+    border-color: #60a5fa;
+  }
+  
+  /* Filter selects */
+  .app-root.theme-dark .filter-group label {
+    color: #e5e7eb;
+  }
+  
+  .app-root.theme-dark .filter-group select {
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.8);
+    color: #f9fafb;
+  }
+  
+  /* ========================
+     IMPACT SUMMARY BAR
+     ======================== */
+  
+  .app-root.theme-dark .impact-summary {
+    padding: 0.7rem 0.95rem;
+    border-radius: 1rem;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.95);
+    font-size: 0.85rem;
+  }
+  
+  /* ========================
+     LOCATION STATUS CHIP
+     ======================== */
+  
+  .app-root.theme-dark .location-status {
+    background: rgba(15, 23, 42, 0.95);
+    color: #93c5fd;
+    border-radius: 999px;
+    border: 1px solid rgba(59, 130, 246, 0.7);
+  }
+  
+  .app-root.theme-dark .location-status.error {
+    background: rgba(127, 29, 29, 0.95);
+    color: #fee2e2;
+  }
+  
+  /* ========================
+     ORG BANNER – DARK GLASS
+     ======================== */
+  
+  .app-root.theme-dark .org-banner {
+    margin-top: 1.6rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 1rem;
+    background: linear-gradient(90deg, #f97316, #facc15);
+    color: #111827;
+    box-shadow: 0 20px 45px rgba(248, 181, 32, 0.6);
+  }
+  
+  .app-root.theme-dark .org-banner-button {
+    background: #111827;
+    color: #f9fafb;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+  }
+/* =========================================
+   CLEAN DARK THEME LAYOUT + BACKGROUND
+   ========================================= */
+
+/* Softer, centered gradient instead of bright bar on the far left */
+.app-root.theme-dark {
+  background: radial-gradient(
+    circle at 50% -20%,
+    #1e40af 0%,
+    #020617 55%
+  );
+  color: #e5e7eb;
+}
+
+/* Make main content span the full width, no “floaty” middle card */
+.app-root.theme-dark .app-content {
+  max-width: 100%;
+  margin: 0;
+  padding: 1.6rem 1.8rem 2.4rem;
+  box-sizing: border-box;
+}
+
+/* Make header align visually with content padding */
+.theme-dark .header {
+  padding-inline: 1.8rem;
+}
+
+/* Slightly tighten vertical spacing so the layout feels intentional */
+.app-root.theme-dark .quick-actions {
+  margin-top: 0.6rem;
+}
+
+.app-root.theme-dark .filter-bar {
+  margin-top: 0.7rem;
+}
+
+.app-root.theme-dark .impact-summary {
+  margin-top: 0.8rem;
+}
+
+/* Keep the main grid strong and centered but not “boxed in” */
+.app-root.theme-dark .layout {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 1.4rem;
+}
+@media (max-width: 960px) {
+  .app-root.theme-dark .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+  /* ================================
+   MAP PAGE – SHARED LAYOUT + THEME
+   ================================ */
+
+/* Page background matches landing page palette */
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 0% 0%, #e0f2fe 0%, #dbeafe 24%, #020617 100%);
+  color: #0f172a;
+}
+
+/* Dark mode version of the same layout */
+.app-root.theme-dark {
+  background: radial-gradient(circle at 0% 0%, #111827 0%, #020617 60%);
+  color: #e5e7eb;
+}
+
+/* Main shell around filters + map */
+.app-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto 2.5rem;
+  padding: 1.6rem 2rem 2.6rem;
+}
+
+/* Give everything a soft card look on both themes */
+.app-root:not(.theme-dark) .app-content,
+.app-root.theme-dark .app-content {
+  background: rgba(248, 250, 252, 0.94);
+  border-radius: 1.5rem 1.5rem 1.2rem 1.2rem;
+  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.25);
+}
+
+/* In dark mode, card is darker but same shape */
+.app-root.theme-dark .app-content {
+  background: linear-gradient(145deg, #020617, #020617 55%, #020617 100%);
+}
+
+/* Top “I have…” row + filters get a bit more breathing room */
+.filter-bar {
+  margin-top: 0.75rem;
+}
+
+.summary-bar {
+  margin-top: 1rem;
+}
+
+/* ================================
+   LAYOUT: SIDEBAR + MAP
+   ================================ */
+
+.layout {
+  margin-top: 1.6rem;
+  display: grid;
+  grid-template-columns: minmax(320px, 360px) minmax(0, 1.6fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Sidebar card matches landing-page style */
+.sidebar {
+  border-radius: 1.2rem;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+.app-root.theme-dark .sidebar {
+  background: #020617;
+  border-color: #1f2937;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Bigger map, fills its column cleanly */
+.map-container {
+  border-radius: 1.3rem;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.18);
+  min-height: 520px;
+  height: calc(100vh - 260px);
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.app-root.theme-dark .map-container {
+  background: #020617;
+  border-color: #1f2937;
+}
+
+/* Make sure the Leaflet container always stretches */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* ================================
+   LIGHT / DARK COMPONENT TWEAKS
+   ================================ */
+
+.app-root.theme-dark .summary-bar {
+  background: #020617;
+  border-radius: 0.85rem;
+  color: #e5e7eb;
+}
+
+/* Charity cards stay the same layout across themes */
+.charity-card {
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.app-root.theme-dark .charity-card {
+  background: #020617;
+  border-color: #1f2937;
+}
+
+.app-root.theme-dark .charity-card-selected {
+  background: #020617;
+}
+
+/* Quick “I have…” pills use same shape on both themes */
+.quick-action-pill,
+.button,
+.points-display,
+.theme-toggle {
+  border-radius: 999px;
+}
+
+/* Small tightening for header row so it lines up with landing */
+.header {
+  padding: 1.2rem 2rem;
+  background: transparent;
+  box-shadow: none;
+}
+.app-root.theme-dark .header {
+  background: transparent;
+  border-bottom: none;
+}
+
+/* Dark/light impact bar text contrast */
+.app-root:not(.theme-dark) .summary-bar {
+  background: #f3f4f6;
+}
+/* ======================================
+   Better full-screen use + bigger map
+   ====================================== */
+
+/* Let the main card span more of the viewport */
+.app-content {
+  max-width: 1440px;      /* wider than before */
+  width: 100%;
+  margin: 0 auto 2.8rem;
+  padding: 1.6rem 3rem 3rem;
+}
+
+@media (max-width: 1200px) {
+  .app-content {
+    padding-inline: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    padding-inline: 1.2rem;
+    padding-top: 1.2rem;
+  }
+}
+
+/* Sidebar vs map: give the map more real estate */
+.layout {
+  margin-top: 1.6rem;
+  display: grid;
+  grid-template-columns: minmax(320px, 380px) minmax(0, 2.3fr);
+  gap: 1.6rem;
+  align-items: stretch;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Map should feel like the hero of the page */
+.map-container {
+  border-radius: 1.3rem;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.18);
+
+  /* taller + closer to full viewport height */
+  min-height: 640px;
+  height: calc(100vh - 220px);
+}
+
+.app-root.theme-dark .map-container {
+  background: #020617;
+  border-color: #1f2937;
+}
+
+/* Make sure Leaflet itself truly fills the container */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ======================================
+   Top “I have…” buttons & filters layout
+   ====================================== */
+
+/* Spread pills nicely across the width */
+.quick-actions {
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.9rem;
+}
+
+.quick-actions-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+}
+
+.filter-bar {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.8rem 1.4rem;
+}
+
+/* Slightly larger controls to feel more “hero” on big screens */
+.filter-group select {
+  min-width: 150px;
+}
+
+@media (max-width: 768px) {
+  .filter-group select {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* Keep the impact bar readable but compact */
+.summary-bar {
+  margin-top: 1.1rem;
+}
+/* =========================================
+   OVERRIDES: BLUE THEME + STRONG SELECTION
+   (paste this at the very bottom of styles.css)
+   ========================================= */
+
+/* ---------- Header + subtitle (light mode) ---------- */
+
+/* Light mode header = soft blue bar, darker text for readability */
+.app-root:not(.theme-dark) .header {
+  background: linear-gradient(90deg, #e0f2fe, #dbeafe);
+  color: #0f172a;
+  border-bottom: 1px solid rgba(191, 219, 254, 0.8);
+}
+
+/* Tagline under "NeighborGood" – make it readable and on-brand blue */
+.app-root:not(.theme-dark) .subtitle {
+  color: #1e3a8a;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Dark mode header stays deep navy */
+.app-root.theme-dark .header {
+  background: linear-gradient(90deg, #020617, #020617);
+  border-bottom: 1px solid #0b1120;
+}
+
+/* ---------- Layout + map: make better use of the screen ---------- */
+
+/* Wider content area that takes advantage of the full viewport */
+.app-content {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto 2.8rem;
+  padding: 1.6rem 3rem 3rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1200px) {
+  .app-content {
+    padding-inline: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    padding-inline: 1.2rem;
+    padding-top: 1.2rem;
+  }
+}
+
+/* Sidebar vs map: give the map more space */
+.layout {
+  margin-top: 1.6rem;
+  display: grid;
+  grid-template-columns: minmax(320px, 380px) minmax(0, 2.3fr);
+  gap: 1.6rem;
+  align-items: stretch;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Map is now the hero of the page */
+.map-container {
+  border-radius: 1.3rem;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.18);
+
+  /* closer to full viewport height */
+  min-height: 640px;
+  height: calc(100vh - 220px);
+}
+
+.app-root.theme-dark .map-container {
+  background: #020617;
+  border-color: #1f2937;
+}
+
+/* Ensure Leaflet always fills */
+.leaflet-container,
+.map {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ---------- Quick actions + filters: better spread ---------- */
+
+.quick-actions {
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.9rem;
+}
+
+.quick-actions-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+}
+
+.filter-bar {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.8rem 1.4rem;
+}
+
+.filter-group select {
+  min-width: 150px;
+}
+
+@media (max-width: 768px) {
+  .filter-group select {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* Impact bar stays compact but readable */
+.summary-bar {
+  margin-top: 1.1rem;
+}
+
+/* ---------- STRONGER BLUE SELECTION FOR CHARITIES (LIGHT MODE) ---------- */
+
+.app-root:not(.theme-dark) .charity-card {
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+/* Selected card: bright blue, obvious, matches brand */
+.app-root:not(.theme-dark) .charity-card-selected {
+  border-color: #2563eb;
+  background: radial-gradient(circle at 0 0, #eff6ff 0, #ffffff 55%);
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.35);
+}
+
+.app-root:not(.theme-dark) .charity-card-selected .charity-name {
+  color: #1d4ed8;
+}
+
+.app-root:not(.theme-dark) .charity-card-selected .urgency-tag {
+  border-radius: 999px;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+/* CTA in selected card gets the same blue/purple gradient as landing CTA */
+.app-root:not(.theme-dark) .charity-card-selected .button {
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.5);
+}
+
+.app-root:not(.theme-dark) .charity-card-selected .button:hover {
+  background: linear-gradient(135deg, #4338ca, #1d4ed8);
+}
+
+/* ---------- Map markers: stronger selection ring ---------- */
+
+.marker-inner {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 3px solid #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.35);
+  transform: translateY(-9px);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+
+/* Hover for any marker */
+.marker-inner:hover {
+  transform: translateY(-11px) scale(1.05);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.5);
+}
+
+/* Selected marker: bright blue glow */
+.marker-inner-selected {
+  transform: translateY(-13px) scale(1.12);
+  border-color: #2563eb;
+  box-shadow: 0 18px 42px rgba(37, 99, 235, 0.8);
+}
+
+/* Dark mode version: neon blue ring on navy */
+.app-root.theme-dark .marker-inner {
+  background: #020617;
+  border-color: #60a5fa;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+}
+
+.app-root.theme-dark .marker-inner-selected {
+  border-color: #f97316;
+  box-shadow: 0 20px 40px rgba(248, 181, 32, 0.7);
+}
+
+/* ---------- Impact + session summary in light mode ---------- */
+
+.app-root:not(.theme-dark) .impact-summary,
+.app-root:not(.theme-dark) .summary-bar {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 0.95rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 14px 25px rgba(15, 23, 42, 0.06);
+}
+
+/* ---------- Quick actions: subtle blue theme ---------- */
+
+.app-root:not(.theme-dark) .quick-action-pill {
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 8px 22px rgba(148, 163, 184, 0.35);
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease,
+    transform 0.08s ease,
+    box-shadow 0.12s ease;
+}
+
+.app-root:not(.theme-dark) .quick-action-pill:hover {
+  background: #eef2ff;
+  border-color: #4f46e5;
+  box-shadow: 0 14px 28px rgba(129, 140, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Optional “active” state if you add a class in JS */
+.app-root:not(.theme-dark) .quick-action-pill.quick-action-pill--active {
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  color: #f9fafb;
+  border-color: transparent;
+  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.7);
+}
+/* =======================================================
+   OVERRIDES – put this at the VERY BOTTOM of styles.css
+   ======================================================= */
+
+/* 1) Fix body / app background so there is no weird grey bar */
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: radial-gradient(circle at 0% 0%, #e0f2fe 0%, #dbeafe 28%, #020617 100%);
+}
+
+.app-root {
+  min-height: 100vh;
+}
+
+/* 2) HackCamp pill – readable in LIGHT + DARK  */
+
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 420px;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* light mode pill */
+.app-root:not(.theme-dark) .header-badge {
+  background: #0b1120;           /* deep navy */
+  border: 1px solid #1f2937;
+  color: #e5e7eb;               /* light text so it pops */
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.25);
+}
+
+/* dark mode pill */
+.app-root.theme-dark .header-badge {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #374151;
+  color: #e5e7eb;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.7);
+}
+
+/* 3) Stronger blue highlight when a charity is selected */
+
+.charity-card-selected {
+  border-color: #2563eb;
+  background: linear-gradient(135deg, #eff6ff, #ffffff);
+  box-shadow:
+    0 0 0 1px #bfdbfe,
+    0 18px 40px rgba(37, 99, 235, 0.35);
+}
+
+/* dark-mode selected card */
+.app-root.theme-dark .charity-card-selected {
+  border-color: #60a5fa;
+  background: radial-gradient(circle at 0% 0%, #1d4ed8 0%, #020617 65%);
+  box-shadow:
+    0 0 0 1px rgba(96, 165, 250, 0.6),
+    0 20px 44px rgba(15, 23, 42, 0.9);
+}
+
+/* make the title in selected card a bit more vivid in light mode */
+.app-root:not(.theme-dark) .charity-card-selected .charity-name {
+  color: #1d4ed8;
+}
