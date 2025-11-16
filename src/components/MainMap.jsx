@@ -23,14 +23,14 @@ function MainMap(props) {
         },
         zoom: 13
       };
+
+    const apiKey = import.meta.env.REACT_APP_API_KEY
     
     return (
         <div className="mainContainer">
-    
-
 
         <GoogleMapReact
-            bootstrapURLKeys={{ key: "AIzaSyD2lWRF2-QLrl0EUlwm3m_q50xmLD-1Yos" }}
+            bootstrapURLKeys={{ key: "AIzaSyCwYKd03IUKc1UwZBuyxDIOR8ldxjrPd9Y" }}
             defaultCenter={defaultProps.center}
             defaultZoom={defaultProps.zoom}
         >

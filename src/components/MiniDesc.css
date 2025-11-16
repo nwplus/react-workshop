@@ -4,11 +4,11 @@
 
 .box {
     display: flexbox;
-    width: 260px;
+    width: 280px;
     padding: 10px;
     background-color: white;
     font-family: monospace;
-    translate: -50px -60px;
+    translate: -150px -150px;
     border-radius: 20px;
     border: 10px solid plum;
     margin: 10px;

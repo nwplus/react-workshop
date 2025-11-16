@@ -6,7 +6,8 @@ function App() {
   const data = [
     {
       name: "KFC",
-      description: "Giving food to the homeless",
+      category: "Soup kitchen",
+      description: "Creating tasty chicken for all, high-quality fast fried chicken.",
       link: "https://kfc.ca",
       lat: 49.267535,
       lng: -123.128936,
@@ -23,7 +24,8 @@ function App() {
     },
     {
       name: "Vancouver Food Bank",
-      description: "Organizing food delivery to the underpriveledged",
+      category: "Food bank",
+      description: "Local nonprofit organizing food delivery to the underpriveledged",
       link: "https://foodbank.bc.ca",
       lat: 49.282630,
       lng: -123.134956,
@@ -38,14 +40,32 @@ function App() {
         "Parents clothes",
         "Mitts and toques"
       ]
-    }
+    },
+    {
+      name: "BC Cancer Foundation",
+      category: "Medical research",
+      description: "Donate towards research to save lives around the world.",
+      link: "https://bccancerfoundation.com/",
+      lat: 49.263212,
+      lng: -123.120524,
+      img: "https://www.bccancer.bc.ca/SiteAssets/bcca-logo.png",
+      categories: [
+        "Medical research",
+        "Financial donations",
+        "Volunteering"
+      ],
+      needs: [
+        "Financial donations",
+        "Volunteers"
+      ]
+    },
   ]
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div class="app">
       <SideBar list={data} />
-      {/* <MainMap
+      <MainMap
         list={data}
-      /> */}
+      />
     </div>
   )
 }
