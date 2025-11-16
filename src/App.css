@@ -7,5 +7,21 @@
 
 .app {
   display: flex;
-  flex-direction: column;
+  overflow:hidden;
+}
+
+.title {
+  font-family: monospace;
+  margin: 2px;
+  display: flex;
+  
+} .title>h1 {
+  background-color: coral;
+  width: max-content;
+  padding: 20px;
+  border-radius: 20px;
+  display: inline;
+} .title>h2 {
+  padding: 20px;
+  width: max-content;
 }
