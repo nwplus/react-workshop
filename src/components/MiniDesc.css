@@ -72,7 +72,8 @@
     border: 5px solid black;
     transition: 0.2s;
 } .link:hover {
-    background-color: rgb(255, 238, 0)
+    background-color: rgb(255, 238, 0);
+    cursor: pointer;
 }
 
 a {

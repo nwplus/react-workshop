@@ -1,5 +1,6 @@
 import "./App.css";
 import MainMap from "./components/MainMap.jsx"
+import SideBar from "./components/SideBar.jsx"
 
 function App() {
   const data = [
@@ -40,10 +41,11 @@ function App() {
     }
   ]
   return (
-    <div style={{ height: "100vh", width: "100%", flex: 1 }}>
-      <MainMap
+    <div style={{ height: "100vh", width: "100%" }}>
+      <SideBar list={data} />
+      {/* <MainMap
         list={data}
-      />
+      /> */}
     </div>
   )
 }

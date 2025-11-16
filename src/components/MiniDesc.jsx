@@ -25,10 +25,9 @@ function MiniDesc(props) {
             </div>
 
                 <br></br>
-            <button className="link">
-                <a href={props.link} target="_blank">Donate 🥰</a>
-            </button>
-
+            <a href={props.link} target="_blank">
+            <button className="link">Donate 🥰</button>
+            </a>
 
             
         </div>
