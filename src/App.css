@@ -1,11 +1,800 @@
-#root {
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  font-family: sans-serif;
-}
+/* ===========================
+   Global + design tokens
+   =========================== */
 
-.app {
-  display: flex;
-  flex-direction: column;
-}
+   html {
+    scroll-behavior: smooth;
+  }
+  
+  :root {
+    --ng-bg-body-light: #e5f0ff;
+    --ng-bg-body-light-alt: #f5f7fb;
+    --ng-bg-surface-light: #ffffff;
+  
+    --ng-bg-body-dark: #020617;
+    --ng-bg-body-dark-alt: #020617;
+    --ng-bg-surface-dark: #020617;
+  
+    --ng-primary: #4f46e5;
+    --ng-primary-soft: #eef2ff;
+    --ng-accent: #22c55e;
+    --ng-danger: #ef4444;
+  
+    --ng-text-main-light: #0f172a;
+    --ng-text-soft-light: #4b5563;
+    --ng-text-main-dark: #e5e7eb;
+    --ng-text-soft-dark: #9ca3af;
+  
+    --ng-border-subtle-light: #e5e7eb;
+    --ng-border-strong-light: #cbd5f5;
+    --ng-border-subtle-dark: #1f2937;
+    --ng-border-strong-dark: #334155;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  
+  /* ===========================
+     App shell
+     =========================== */
+  
+  .app-root {
+    min-height: 100vh;
+    background: radial-gradient(circle at 0% 0%, #dbeafe 0%, #f5f7fb 55%);
+    color: var(--ng-text-main-light);
+  }
+  
+  .app-root.theme-dark {
+    background: radial-gradient(circle at 0% 0%, #1d4ed8 0%, #020617 55%);
+    color: var(--ng-text-main-dark);
+  }
+  
+  /* keep content nicely centred on large screens */
+  .header,
+  .app-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+  
+  .app-content {
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+  
+  /* ===========================
+     Header
+     =========================== */
+  
+  .header {
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.92));
+    color: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.75);
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .subtitle {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+    color: #e5e7eb;
+  }
+  
+  .header-badge {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.7);
+  }
+  
+  /* right side of header (points + theme toggle) */
+  
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+  }
+  
+  .points-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.14);
+    color: #bfdbfe;
+    font-weight: 500;
+  }
+  
+  .points-user {
+    font-weight: 600;
+  }
+  
+  .theme-toggle {
+    border: none;
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  
+  .theme-toggle:hover {
+    background: #111827;
+    transform: translateY(-1px);
+  }
+  
+  /* ===========================
+     Layout
+     =========================== */
+  
+  .layout {
+    margin-top: 1.2rem;
+    display: grid;
+    grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* ===========================
+     Filter bar / quick actions
+     =========================== */
+  
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-top: 0.75rem;
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+  }
+  
+  .filter-group label {
+    font-weight: 500;
+  }
+  
+  .filter-group select {
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    font-size: 0.9rem;
+  }
+  
+  /* “I have…” quick actions */
+  
+  .quick-actions {
+    margin-bottom: 0.7rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+  }
+  
+  .quick-actions-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4b5563;
+  }
+  
+  .quick-actions-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .quick-action-pill {
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.12s ease, border-color 0.12s ease,
+      transform 0.08s ease, box-shadow 0.12s ease;
+    box-shadow: 0 6px 16px rgba(148, 163, 184, 0.25);
+  }
+  
+  .quick-action-pill:hover {
+    background: #eef2ff;
+    border-color: #4f46e5;
+    box-shadow: 0 10px 22px rgba(129, 140, 248, 0.45);
+    transform: translateY(-1px);
+  }
+  
+  .quick-action-emoji {
+    font-size: 1.2rem;
+  }
+  
+  /* ===========================
+     Impact summary
+     =========================== */
+  
+  .summary-bar,
+  .impact-summary {
+    margin-top: 0.65rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: #374151;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  }
+  
+  .summary-pill {
+    padding: 0.18rem 0.6rem;
+    border-radius: 999px;
+    background: #f3f4f6;
+    font-size: 0.8rem;
+  }
+  
+  .summary-pill-primary {
+    background: #eef2ff;
+    color: #4338ca;
+    font-weight: 500;
+  }
+  
+  /* ===========================
+     Sidebar (charity list)
+     =========================== */
+  
+  .sidebar {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 0.9rem;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-title {
+    margin: 0 0 0.7rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .sidebar-count {
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+  
+  .sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    padding-right: 0.2rem;
+  }
+  
+  .sidebar-empty {
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+  
+  /* charity cards */
+  
+  .charity-card {
+    border-radius: 0.9rem;
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem 0.8rem;
+    background: #ffffff;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease,
+      border-color 0.15s ease, background 0.15s ease;
+  }
+  
+  .charity-card:hover {
+    border-color: #c7d2fe;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+    transform: translateY(-2px);
+  }
+  
+  .charity-card-selected {
+    border-color: #4f46e5;
+    box-shadow: 0 14px 30px rgba(79, 70, 229, 0.4);
+    background: #f5f3ff;
+  }
+  
+  .charity-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .charity-name {
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  
+  .charity-cause {
+    margin: 0.15rem 0;
+    font-size: 0.85rem;
+    color: #4b5563;
+  }
+  
+  .charity-description {
+    margin: 0.25rem 0 0.4rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+  
+  .charity-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: #6b7280;
+    margin-bottom: 0.4rem;
+  }
+  
+  .charity-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .charity-footer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    justify-content: flex-end;
+  }
+  
+  /* pills + buttons */
+  
+  .pill {
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: none;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: #4f46e5;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  
+  .button-ghost {
+    background: #ffffff;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+  }
+  
+  .button-ghost:hover {
+    background: #f3f4f6;
+  }
+  
+  /* urgency tags */
+  
+  .urgency-tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  
+  .urgency-high {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  .urgency-medium {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  
+  .urgency-low {
+    background: #dcfce7;
+    color: #166534;
+  }
+  
+  /* save button */
+  
+  .save-button {
+    border: none;
+    background: transparent;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  
+  .save-button:hover {
+    background: #e5e7eb;
+    color: #374151;
+  }
+  
+  .save-button-active {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  
+  /* ===========================
+     Map container
+     =========================== */
+  
+  .map-container {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+    min-height: 400px;
+    max-height: calc(100vh - 210px);
+    animation: fadeIn 0.4s ease;
+  }
+  
+  .map {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* ensure Leaflet has a background even before tiles load */
+  .leaflet-container {
+    background: #e5e7eb;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* custom logo markers */
+  
+  .charity-marker {
+    background: transparent;
+    border: none;
+  }
+  
+  .marker-inner {
+    width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 3px solid #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.35);
+    transform: translateY(-10px);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  
+  .marker-inner-selected {
+    transform: translateY(-14px) scale(1.15);
+    border-color: #f97316;
+    box-shadow: 0 18px 34px rgba(251, 146, 60, 0.55);
+  }
+  
+  /* ===========================
+     Location status
+     =========================== */
+  
+  .location-status {
+    margin-top: 0.7rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.7rem;
+    background: #eff6ff;
+    color: #1d4ed8;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .location-status.error {
+    background: #fef2f2;
+    color: #b91c1c;
+  }
+  
+  .loader {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #bfdbfe;
+    border-top-color: #4f46e5;
+    animation: spin 0.6s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* ===========================
+     Org banner
+     =========================== */
+  
+  .org-banner {
+    margin-top: 1.4rem;
+    padding: 0.8rem 1rem;
+    border-radius: 0.9rem;
+    background: linear-gradient(to right, #f97316, #facc15);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    color: #111827;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+  }
+  
+  .org-banner-text {
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+  }
+  
+  .org-banner-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  
+  .org-banner-button {
+    border-radius: 999px;
+    background: #111827;
+    color: #f9fafb;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .org-banner-button:hover {
+    background: #020617;
+  }
+  
+  /* ===========================
+     Dark theme overrides
+     =========================== */
+  
+  .theme-dark .header {
+    background: linear-gradient(to bottom, #020617, #020617);
+    border-bottom: 1px solid #111827;
+  }
+  
+  .theme-dark .subtitle {
+    color: #9ca3af;
+  }
+  
+  .theme-dark .app-content {
+    color: var(--ng-text-main-dark);
+  }
+  
+  .theme-dark .summary-bar,
+  .theme-dark .impact-summary {
+    background: rgba(15, 23, 42, 0.95);
+    color: #e5e7eb;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  }
+  
+  .theme-dark .summary-pill {
+    background: #1f2937;
+  }
+  
+  .theme-dark .summary-pill-primary {
+    background: #312e81;
+    color: #e5e7eb;
+  }
+  
+  .theme-dark .sidebar {
+    background: #020617;
+    border: 1px solid #1f2937;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  }
+  
+  .theme-dark .charity-card {
+    background: #020617;
+    border-color: #1f2937;
+  }
+  
+  .theme-dark .charity-card:hover {
+    border-color: #4f46e5;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+  }
+  
+  .theme-dark .charity-card-selected {
+    background: #111827;
+  }
+  
+  .theme-dark .map-container {
+    background: #020617;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+  }
+  
+  /* give Leaflet a darker base so it blends with dark mode while tiles load */
+  .theme-dark .leaflet-container {
+    background: #020617;
+  }
+  
+  .theme-dark .org-banner {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  }
+  
+  .theme-dark .points-display {
+    background: rgba(37, 99, 235, 0.18);
+    color: #e5e7eb;
+  }
+  
+  .theme-dark .theme-toggle {
+    background: #1f2937;
+  }
+  
+  .theme-dark .theme-toggle:hover {
+    background: #374151;
+  }
+  
+  .theme-dark .location-status {
+    background: #111827;
+    color: #93c5fd;
+  }
+  
+  .theme-dark .location-status.error {
+    background: #111827;
+    color: #fecaca;
+  }
+  
+  .leaderboard {
+    position: absolute;
+    color: white;
+    width: 500px;
+    height: 500px;
+  }
+  .leaderboard-container {
+    width: 150px;
+    height: 150px;
+    overflow-y: auto;
+    background: #f8f8ff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 6px;
+    font-size: 10px;
+    box-sizing: border-box;
+    color: #111827;
+  }
+  
+  .leaderboard-title {
+    margin: 0 0 4px 0;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  
+  .leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+    gap: 6px;
+    border-radius: 4px;
+  }
+  
+  .leaderboard-item .leaderboard-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0; /* allow truncation if needed */
+  }
+  
+  .medal {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    line-height: 1;
+    font-size: 12px;
+    margin-right: 2px;
+  }
+  
+  /* bold + highlight current user */
+  .current-user {
+    font-weight: 700;
+    background: rgba(79, 70, 229, 0.08); /* subtle purple tint */
+    padding: 2px 4px;
+  }
+  
+  /* Ensure name truncates if too long */
+  .leaderboard-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 56px; /* adjust if you change container size */
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  /* points right column */
+  .leaderboard-points {
+    min-width: 28px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
